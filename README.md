@@ -2,7 +2,7 @@
 
 Public web page and live test for **Me or the Machine**, a Responsible AI final project (AIPI 590, Duke University, Fall 2026) by Jaideep Aher.
 
-**My girlfriend vs. an AI: who knows me better?** A Bee pendant has recorded nearly everything I have said, 24/7, since 2 October 2026. An AI needed 48 of my lines from it to write 47 more in my voice.
+**I've been recorded 24/7 for 7 weeks. Now an AI can be me.** A Bee pendant has recorded nearly everything I have said, 24/7, since 2 October 2026. An AI needed 48 of my lines from it to write 47 more in my voice.
 
 **Result:** ten people who know me were right on 78 of 160 saved judgments (49%), a coin flip. My girlfriend scored 50%.
 

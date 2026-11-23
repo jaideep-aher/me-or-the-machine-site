@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Me or the Machine</title>
-<meta property="og:title" content="My girlfriend vs. an AI: who knows me better?">
+<meta property="og:title" content="I've been recorded 24/7 for 7 weeks. Now an AI can be me.">
 <meta name="description" content="A pilot study: ten people who know me tried to tell my real sentences from ones an AI wrote in my voice. They did no better than a coin flip.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap">
 <style>
@@ -67,6 +67,22 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .fig p{font-size:15px;color:var(--muted);margin:8px 0 0}
 @media (max-width:760px){.figs{grid-template-columns:minmax(0,1fr);border-left:0}.fig{border-right:0;border-bottom:1px solid var(--line);padding:16px 0}}
 
+
+/* Risk section */
+.scare{margin:22px 0 0;padding:18px 22px;border-left:4px solid var(--twin);background:var(--surface);border-radius:0 10px 10px 0;font-family:var(--display);font-weight:500;font-size:clamp(19px,2.2vw,23px);line-height:1.4;max-width:60ch}
+.holds{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:24px;padding:0}
+.holds li{list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;font-size:16px;color:var(--muted)}
+.holds li b{display:block;color:var(--ink);font-family:var(--display);font-size:19px;line-height:1.2;margin-bottom:4px}
+.leaks{margin-top:28px;border-left:3px solid var(--twin);padding:0 0 0 22px;display:grid;gap:18px}
+.leaks div{display:grid;grid-template-columns:72px minmax(0,1fr);gap:14px}
+.leaks .yr{font-family:var(--display);font-weight:800;font-size:24px;color:var(--twin);line-height:1.1}
+.leaks p{margin:0;font-size:16px;color:var(--muted)} .leaks b{color:var(--ink)}
+.harm{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;margin-top:20px;border-top:1px solid var(--line)}
+.harm div{padding:16px 18px 16px 0;border-bottom:1px solid var(--line)}
+.harm b{display:block;font-family:var(--display);font-size:19px} .harm p{margin:4px 0 0;font-size:15px;color:var(--muted)}
+.advice{background:var(--ink);color:var(--bg);border-radius:12px;padding:28px;margin-top:32px}
+.advice h3{color:var(--bg);font-size:26px;margin-bottom:12px}
+.advice ul{margin:0;padding-left:20px;display:grid;gap:8px} .advice li{font-size:17px}
 /* Findings */
 .finding{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:48px;padding-block:40px;border-top:1px solid var(--line)}
 .finding:first-of-type{border-top:0;padding-top:8px}
@@ -103,8 +119,8 @@ footer p{max-width:80ch}
 <section class="hero split">
   <div>
     <div class="kicker">Me or the Machine</div>
-    <h1>My girlfriend vs. an AI: who knows me better?</h1>
-    <div class="pendant"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;color:var(--accent)"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v4"/></svg><div><b>A pendant has heard me talk 24/7 for 7 weeks.</b><p>Every conversation since 2 October, recorded and transcribed. An AI needed just 48 of my lines from it to write 47 more in my voice.</p></div></div>
+    <h1>I've been recorded 24/7 for 7 weeks. Now an AI can be me.</h1>
+    <div class="pendant"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;color:var(--accent)"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v4"/></svg><div><b>It only needed 48 of my sentences.</b><p>A Bee pendant has recorded and transcribed nearly everything I have said since 2 October. An AI read 48 lines from it and wrote 47 more in my voice.</p></div></div>
     <p class="lede" style="margin-top:22px">Ten people who know me tried to tell my lines from the AI's. My girlfriend scored 50%, on her third try. So would a coin.</p>
     <p class="byline">Jaideep Aher, AIPI 590 Responsible AI, Duke University, fall 2026</p>
     <div class="cta"><a class="btn" href="play/">Take the 20-line test</a><a class="btn alt" href="#found">See the results</a></div>
@@ -154,13 +170,59 @@ footer p{max-width:80ch}
   <p class="muted small" style="margin-top:18px">We tend to assume the people closest to us are the last line of defence: "I'd know if it wasn't them." I tested that on myself.</p>
 </section>
 
+<section id="risk">
+  <h2>What a pendant knows about you</h2>
+  <p class="lede">This is the part that worries me most. An AI recorder is not a fitness tracker. After seven weeks, mine holds a searchable record of my life.</p>
+  <blockquote class="scare">While choosing lines for this study, I found the pendant's AI summaries had picked up details of my finances and private health information. I had never thought of those conversations as being recorded. It scared me.</blockquote>
+  <ul class="holds">
+    <li><b>Every conversation, word for word</b>Classes, calls, arguments, jokes, things said in private.</li>
+    <li><b>An AI summary of every day</b>Who I saw, what we talked about, how the day felt.</li>
+    <li><b>Where I was</b>Places attached to each conversation.</li>
+    <li><b>Other people's words</b>Friends and strangers who never agreed to be recorded.</li>
+    <li><b>The sensitive parts</b>Talk about health, money, relationships and plans, the same things I removed from this study.</li>
+  </ul>
+  <div class="split" style="margin-top:44px">
+    <div>
+      <h3 style="font-size:28px">Leaks are not hypothetical</h3>
+      <p class="muted">Companies that hold intimate data keep getting it wrong, including the one that now owns my pendant.</p>
+      <div class="leaks">
+        <div><span class="yr">2023</span><p><b>Amazon, now Bee's owner,</b> paid $25M to the FTC for keeping children's Alexa voice recordings, even after parents asked for deletion. In a separate case, Ring staff could view customers' private videos. Amazon denied wrongdoing.</p></div>
+        <div><span class="yr">2023</span><p><b>23andMe:</b> attackers took data on 6.9 million people, including genetic and health reports, and it went unnoticed for about five months.</p></div>
+        <div><span class="yr">2025</span><p><b>DeepSeek</b> left a database of users' chat logs open on the internet with no password.</p></div>
+        <div><span class="yr">2025</span><p><b>FBI:</b> 22,000+ complaints about AI-enabled scams, about $893M lost.</p></div>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-size:28px">If pendant data leaks, it can be used to</h3>
+      <div class="harm">
+        <div><b>Pretend to be you</b><p>This study: friends could not spot an AI writing as me from 48 of my lines.</p></div>
+        <div><b>Blackmail you</b><p>Private conversations, word for word, with dates and places.</p></div>
+        <div><b>Break into your accounts</b><p>Pet names, schools, birthdays and other answers to security questions come up in normal talk.</p></div>
+        <div><b>Find you</b><p>Where you live, work and spend your evenings.</p></div>
+        <div><b>Expose other people</b><p>Everyone you talk to is in the record too.</p></div>
+        <div><b>Profile you</b><p>An AI can mine weeks of speech for habits, worries and weak spots in seconds.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="advice">
+    <h3>Should you wear one? Think hard first. If you do:</h3>
+    <ul>
+      <li>Assume one day it leaks. Don't record what you could not live with being public.</li>
+      <li>Mute it for private conversations, and tell people when it is on.</li>
+      <li>Delete transcripts regularly, and prefer devices that process on the device.</li>
+      <li>Use a strong unique password and two-factor login, and check which apps you have connected.</li>
+      <li>Agree a check question with family, and never send money because of a text alone.</li>
+    </ul>
+  </div>
+</section>
+
 <section id="how">
   <h2>How the test worked</h2>
   <div class="split">
     <div>
       <p>My Bee pendant has recorded nearly everything I have said since 2 October 2026. From those seven weeks I took 48 standalone sentences, after removing anything private: relationships, health, family, money, and any line naming someone.</p>
       <p>A language model read them and wrote 47 new sentences in my voice.</p>
-      <p>Friends saw one shuffled line at a time and pressed "really him" or "AI twin". Nobody saw the answers until the end, and everyone knew in advance that some lines were fake.</p>
+      <p>Friends saw one shuffled line at a time and pressed "really him" or "AI twin". In the study rounds nobody saw the answers until the end, and everyone knew in advance that some lines were fake.</p>
     </div>
     <div class="chart" aria-label="Diagram of the test">
       <svg viewBox="0 0 520 220" role="img" aria-label="Real lines and twin lines are shuffled into one blind test; each answer is scored">
@@ -265,10 +327,12 @@ footer p{max-width:80ch}
 <section id="next">
   <h2>What's next</h2>
   <ol class="next">
-    <li><div><h3>A control twin that knows nothing about me</h3><p>If a twin with no personal data passes just as often, one-line impersonation needs no data at all.</p></div></li>
-    <li><div><h3>Longer conversations</h3><p>Find the point where shared history starts to protect people.</p></div></li>
-    <li><div><h3>Twenty judges on one fixed set, with reasons</h3><p>Record why each friend chose, so the cues they rely on can be named.</p></div></li>
-    <li><div><h3>Test the defence</h3><p>Measure whether a verification question actually stops a twin.</p></div></li>
+    <li><div><h3>A twin that knows nothing about me</h3><p>The missing control. If it passes as often, one-line impersonation needs no personal data at all.</p></div></li>
+    <li><div><h3>Feed the twin all seven weeks</h3><p>Does a twin built from the full pendant record beat one built from 48 lines? This measures how much the recordings themselves add to the risk.</p></div></li>
+    <li><div><h3>Real conversations and a cloned voice</h3><p>Multi-turn chats and voice notes, where shared memories should help friends, or where the twin's knowledge of my life might help it more.</p></div></li>
+    <li><div><h3>Can people learn to spot it?</h3><p>The test now gives instant feedback. Those rounds show whether accuracy rises over 20 lines.</p></div></li>
+    <li><div><h3>Test the defence</h3><p>Measure whether a family check question actually stops a twin that has read weeks of my life.</p></div></li>
+    <li><div><h3>Audit the pendants</h3><p>Compare what each AI recorder stores, for how long, and who can access it, and publish a plain-language checklist.</p></div></li>
   </ol>
   <div class="cta"><a class="btn" href="play/">Take the 20-line test</a><a class="btn alt" href="report.pdf">Read the report</a><a class="btn alt" href="poster_24x24.pdf">Poster (PDF)</a></div>
 </section>
@@ -276,7 +340,7 @@ footer p{max-width:80ch}
 <footer>
   <p><b style="color:var(--ink)">Limits.</b> A small pilot: ten friends. Seven saved every answer (160 decisions); three reported 30-line scores that I rounded to the nearest possible score, so they count only in the 44% figure. The twin's lines were written by an AI with my real lines in view, the best case for the twin. I picked real lines that stand alone, which may favour generic lines a twin can copy. Real lines keep speech-to-text errors.</p>
   <p><b style="color:var(--ink)">Ethics.</b> Every judge knew some lines were AI-written. No message was ever sent to anyone as me. Judges are anonymised, and other people's speech in my recordings was never used. Code and data are in a private repository shared with the course instructors.</p>
-  <p>Sources: <a href="https://www.malwarebytes.com/blog/scams/2026/06/americans-lost-nearly-900-million-to-ai-powered-scams-fbi-says">FBI AI scam losses (via Malwarebytes)</a>, <a href="https://sacra.com/c/plaud/">Plaud figures (Sacra)</a>, <a href="https://consumer.ftc.gov/consumer-alerts/2023/03/scammers-use-ai-enhance-their-family-emergency-schemes">FTC alert, 2023</a>.</p>
+  <p>Sources: <a href="https://www.malwarebytes.com/blog/scams/2026/06/americans-lost-nearly-900-million-to-ai-powered-scams-fbi-says">FBI AI scam losses (via Malwarebytes)</a>, <a href="https://sacra.com/c/plaud/">Plaud figures (Sacra)</a>, <a href="https://consumer.ftc.gov/consumer-alerts/2023/03/scammers-use-ai-enhance-their-family-emergency-schemes">FTC alert, 2023</a>, <a href="https://www.pbs.org/newshour/politics/amazon-to-pay-31-million-in-fines-for-alexa-voice-assistant-and-ring-camera-privacy-violations">Amazon Alexa and Ring settlements (PBS)</a>, <a href="https://techcrunch.com/2024/01/25/23andme-admits-it-didnt-detect-cyberattacks-for-months">23andMe breach (TechCrunch)</a>, <a href="https://www.wiz.io/blog/wiz-research-uncovers-exposed-deepseek-database-leak">DeepSeek exposed database (Wiz)</a>.</p>
 </footer>
 </main>
 
