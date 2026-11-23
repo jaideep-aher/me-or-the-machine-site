@@ -56,17 +56,17 @@ a{color:var(--accent)} a:focus-visible{outline:3px solid var(--accent);outline-o
 
   <section>
     <div class="hero">
-      <div class="big">50%</div>
-      <div class="cap">of 140 judgments were right. Exactly a coin flip.</div>
-      <div class="sub">70 of 140 · 95% interval 42% to 58% · exact binomial p = 1.00 against chance · 6 judges</div>
+      <div class="big">44%</div>
+      <div class="cap">of 250 judgments were right. No better than a coin flip.</div>
+      <div class="sub">111 of 250 · 95% interval 38% to 51% · exact binomial p = 0.09 against chance · 10 judges</div>
     </div>
   </section>
 
   <section>
-    <h2>The label made no difference</h2>
-    <div class="bar"><div class="lab">My real lines that judges called "him" (41 of 70)</div><div class="track"><i style="width:59%;background:var(--accent)"></i><b></b></div><div class="num">59%</div></div>
-    <div class="bar"><div class="lab">AI twin lines that judges called "him" (41 of 70)</div><div class="track"><i style="width:59%;background:var(--twin)"></i><b></b></div><div class="num">59%</div></div>
-    <p class="meta">The dashed line marks 50%.</p>
+    <h2>The twin passed more often than I did</h2>
+    <div class="bar"><div class="lab">My real lines that judges called "him" (45 of 80)</div><div class="track"><i style="width:56%;background:var(--accent)"></i><b></b></div><div class="num">56%</div></div>
+    <div class="bar"><div class="lab">AI twin lines that judges called "him" (47 of 80)</div><div class="track"><i style="width:59%;background:var(--twin)"></i><b></b></div><div class="num">59%</div></div>
+    <p class="meta">The dashed line marks 50%. Based on the 160 judgments where each answer was saved.</p>
   </section>
 
   <section>
@@ -109,7 +109,11 @@ a{color:var(--accent)} a:focus-visible{outline:3px solid var(--accent);outline-o
       <tr><td>P4, friend</td><td>20</td><td>10 (50%)</td><td>6 of 10</td></tr>
       <tr><td>P5, friend</td><td>20</td><td>9 (45%)</td><td>5 of 10</td></tr>
       <tr><td>P6, friend</td><td>20</td><td>10 (50%)</td><td>7 of 10</td></tr>
-      <tr><td><b>All</b></td><td><b>140</b></td><td><b>70 (50%)</b></td><td><b>41 of 70</b></td></tr>
+      <tr><td>P7, friend</td><td>20</td><td>8 (40%)</td><td>6 of 10</td></tr>
+      <tr><td>P8, friend</td><td>30</td><td>12 (40%)</td><td>not saved</td></tr>
+      <tr><td>P9, friend</td><td>30</td><td>15 (50%)</td><td>not saved</td></tr>
+      <tr><td>P10, friend</td><td>30</td><td>6 (20%)</td><td>not saved</td></tr>
+      <tr><td><b>All</b></td><td><b>250</b></td><td><b>111 (44%)</b></td><td><b>47 of 80</b></td></tr>
     </table></div>
   </section>
 
@@ -126,18 +130,19 @@ a{color:var(--accent)} a:focus-visible{outline:3px solid var(--accent);outline-o
   <section>
     <h2>What judges seemed to use</h2>
     <ul>
-      <li><b>Identical rates.</b> My real lines and the twin's lines were each called "him" 41 times out of 70.</li>
-      <li><b>Default trust.</b> Judges answered "really him" 59% of the time, which favours the impostor.</li>
-      <li><b>Topic did not help.</b> Lines about AI tools and gadgets were called "him" 59% of the time, everyday lines 58%.</li>
-      <li><b>Judges disagreed.</b> Three judges saw the same 20 lines and all agreed on only 5. Two of those were twin lines all three believed.</li>
-      <li><b>Pooling did not help.</b> A majority vote of those three was right on 10 of the 20 lines.</li>
+      <li><b>The twin beat me.</b> Twin lines were called "him" 47 times out of 80, my real lines 45 times.</li>
+      <li><b>Default trust.</b> Judges answered "really him" 58% of the time, which favours the impostor.</li>
+      <li><b>One friend was reliably wrong.</b> P10 scored 6 of 30, far below chance (p = 0.001): a consistent rule for spotting me, applied backwards.</li>
+      <li><b>Judges disagreed.</b> Four judges saw the same 20 lines and all agreed on just one: a twin line about a biryani place, which all four believed.</li>
+      <li><b>Pooling did not help.</b> Their majority vote was right on 3 lines, wrong on 5 and tied on 12.</li>
     </ul>
   </section>
 
   <section>
     <h2>Limits</h2>
     <ul>
-      <li>Six judges, 140 judgments and four line sets. This is a small pilot study.</li>
+      <li>Ten judges and 250 judgments. This is a small pilot study.</li>
+      <li>Three friends' 30-line scores were reported to me and rounded to the nearest possible score; their line-by-line answers were not saved.</li>
       <li>One sentence carries little identity. The result may say as much about the format as about the twin.</li>
       <li>The twin lines were written by a language model in a chat session after reading my real lines, not by a deployed system.</li>
       <li>The real lines are speech-to-text and keep its errors. One judge was on a third attempt.</li>
@@ -149,7 +154,7 @@ a{color:var(--accent)} a:focus-visible{outline:3px solid var(--accent);outline-o
     <ul>
       <li>A control twin that knows nothing about me. If it passes as often, impersonation in one sentence needs no personal data.</li>
       <li>Longer exchanges, where shared history should help the judge.</li>
-      <li>One fixed set, ten or more judges, and a reason for every answer.</li>
+      <li>One fixed set, twenty judges, and a reason for every answer.</li>
     </ul>
     <p class="meta" style="margin-top:14px">Poster: <a href="poster_24x24.pdf">24 by 24 inch PDF</a>. Report: <a href="report.pdf">PDF</a>. Code and data are in a private repository shared with the course instructors.</p>
   </section>
