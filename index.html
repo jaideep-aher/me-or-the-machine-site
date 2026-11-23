@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Me or the Machine</title>
+<meta name="description" content="A pilot study: can the people closest to me tell one sentence I said from one an AI wrote in my voice?">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one editorial column, a dark result block, evidence below it. Tokens match DESIGN.md. */
+:root{--bg:#EEF1F4;--surface:#FFFFFF;--ink:#131A24;--muted:#4D5968;--line:#C3CCD6;--accent:#1F4FD8;--twin:#B34E14;--hero:#131A24;--hero-ink:#FFFFFF;--hero-muted:#B9C4D2;--track:#D9E0E8;
+ --display:"Bricolage Grotesque","Avenir Next",system-ui,sans-serif;--body:"Instrument Sans","Helvetica Neue",system-ui,sans-serif}
+@media (prefers-color-scheme: dark){:root{--bg:#0F141B;--surface:#182029;--ink:#E9EEF4;--muted:#9AA7B6;--line:#2C3743;--accent:#7FA2FF;--twin:#F0A067;--hero:#1D2733;--track:#2C3743;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+main{max-width:760px;margin:0 auto;padding:40px max(16px,env(safe-area-inset-right,0px)) 72px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:44px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,11vw,84px);line-height:.95;letter-spacing:-.025em;margin:0 0 16px;text-wrap:balance}
+h2{font-family:var(--display);font-weight:700;font-size:26px;line-height:1.1;margin:0 0 12px;text-wrap:balance}
+p{margin:0 0 12px;max-width:65ch}
+.kicker{font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.lede{font-family:var(--display);font-weight:500;font-size:clamp(20px,4.6vw,26px);line-height:1.25;max-width:26ch}
+.meta{color:var(--muted);font-size:14px}
+.hero{background:var(--hero);color:var(--hero-ink);border-radius:8px;padding:28px 24px}
+.hero .big{font-family:var(--display);font-weight:700;font-size:clamp(96px,30vw,180px);line-height:.85;letter-spacing:-.04em}
+.hero .cap{font-size:20px;line-height:1.3;margin-top:14px}
+.hero .sub{font-size:14px;color:var(--hero-muted);margin-top:8px}
+.bar{display:grid;grid-template-columns:minmax(0,1fr) 64px;gap:6px 12px;align-items:center;margin-bottom:14px}
+.bar .lab{grid-column:1/3;font-size:15px}
+.track{height:22px;background:var(--track);border-radius:3px;position:relative}
+.track i{position:absolute;inset:0 auto 0 0;border-radius:3px}
+.track b{position:absolute;left:50%;top:-4px;bottom:-4px;border-left:2px dashed var(--ink)}
+.num{font-family:var(--display);font-weight:700;font-size:24px;text-align:right;font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums;min-width:420px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.quote{background:var(--surface);border-radius:4px;padding:12px 14px;border-left:5px solid var(--accent);border-top-left-radius:0;border-bottom-left-radius:0}
+.quote.t{border-left-color:var(--twin)}
+.quote span{display:block;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+ul{margin:0;padding-left:20px;max-width:65ch} li{margin-bottom:8px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;counter-reset:s}
+.steps div{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:12px;font-size:15px;line-height:1.4}
+.steps b{display:block;font-family:var(--display);font-size:17px;margin-bottom:2px}
+a{color:var(--accent)} a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn{display:inline-block;font-weight:600;color:var(--bg);background:var(--ink);border-radius:6px;padding:13px 18px;text-decoration:none;min-height:48px}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">AIPI 590 · Responsible AI · pilot study</div>
+    <h1>Me or the Machine</h1>
+    <p class="lede">If an AI writes one sentence in my voice, can the people closest to me tell it is not me?</p>
+    <p class="meta">Jaideep Aher · Duke University · Fall 2026</p>
+  </header>
+
+  <section>
+    <div class="hero">
+      <div class="big">51%</div>
+      <div class="cap">of 80 judgments were right. A coin flip gets 50%.</div>
+      <div class="sub">41 of 80 · 95% interval 41% to 62% · exact binomial p = 0.91 against chance · 3 judges</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The label made no difference</h2>
+    <div class="bar"><div class="lab">My real lines that judges called "him" (24 of 40)</div><div class="track"><i style="width:60%;background:var(--accent)"></i><b></b></div><div class="num">60%</div></div>
+    <div class="bar"><div class="lab">AI twin lines that judges called "him" (23 of 40)</div><div class="track"><i style="width:57.5%;background:var(--twin)"></i><b></b></div><div class="num">58%</div></div>
+    <p class="meta">The dashed line marks 50%.</p>
+  </section>
+
+  <section>
+    <h2>Why it matters</h2>
+    <p>Assistants now hold our recordings, email and messages. The same data that makes them useful makes them able to speak as us, and impersonation scams already target families and friends.</p>
+    <p>We tend to assume the people who know us are the last line of defence. I tested that assumption on myself.</p>
+  </section>
+
+  <section>
+    <h2>How the test works</h2>
+    <div class="steps">
+      <div><b>Real me</b>48 lines I actually said, taken from my wearable recorder.</div>
+      <div><b>Twin</b>47 lines a language model wrote to sound like me.</div>
+      <div><b>Blind test</b>One shuffled line at a time: really him, or AI twin?</div>
+      <div><b>Score</b>Accuracy against a coin flip, saved line by line.</div>
+    </div>
+    <p style="margin-top:14px">Judges saw no answers until the end. Private and sensitive recordings were removed before any line was chosen, and every judge knew in advance that some lines were written by an AI.</p>
+    <p><a class="btn" href="play/">Take the 20-line test</a></p>
+  </section>
+
+  <section>
+    <h2>Who judged</h2>
+    <div class="tw"><table>
+      <tr><th>Judge</th><th>Lines</th><th>Right</th><th>Twin passed</th></tr>
+      <tr><td>P1, partner</td><td>30</td><td>15 (50%)</td><td>10 of 15</td></tr>
+      <tr><td>P2, friend</td><td>20</td><td>14 (70%)</td><td>4 of 10</td></tr>
+      <tr><td>P3, friend</td><td>30</td><td>12 (40%)</td><td>9 of 15</td></tr>
+      <tr><td><b>All</b></td><td><b>80</b></td><td><b>41 (51%)</b></td><td><b>23 of 40</b></td></tr>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>What fooled them</h2>
+    <div class="quotes">
+      <div class="quote t"><span>AI twin · judged real</span>I'm not gonna lie, I didn't read the paper, I just asked the AI to explain it.</div>
+      <div class="quote t"><span>AI twin · judged real</span>And then the demo crashed right when I opened it in front of everyone.</div>
+      <div class="quote"><span>Really me · judged AI</span>No, I just forgot to bring my charger to university.</div>
+      <div class="quote"><span>Really me · judged AI</span>I think it will take me like five minutes.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What judges seemed to use</h2>
+    <ul>
+      <li><b>A picture of me, not my wording.</b> Lines about AI tools, gadgets and building apps were accepted as me whoever wrote them.</li>
+      <li><b>Ordinary me looks fake.</b> My plain logistics lines, like a charger or a meeting time, were often rejected.</li>
+      <li><b>Default trust.</b> Judges answered "really him" 59% of the time, which favours the impostor.</li>
+      <li><b>No shared rule.</b> A cue that worked for one judge failed for the next.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Limits</h2>
+    <ul>
+      <li>Three judges, 80 judgments and three different line sets. This is a pilot, not a finding.</li>
+      <li>One sentence carries little identity. The result may say as much about the format as about the twin.</li>
+      <li>The twin lines were written by a language model in a chat session after reading my real lines, not by a deployed system.</li>
+      <li>The real lines are speech-to-text and keep its errors. One judge was on a third attempt.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Next</h2>
+    <ul>
+      <li>A control twin that knows nothing about me. If it passes as often, impersonation in one sentence needs no personal data.</li>
+      <li>Longer exchanges, where shared history should help the judge.</li>
+      <li>One fixed set, ten or more judges, and a reason for every answer.</li>
+    </ul>
+    <p class="meta" style="margin-top:14px">Poster: <a href="poster_24x24.pdf">24 by 24 inch PDF</a>. Code and data are in a private repository shared with the course instructors.</p>
+  </section>
+</main>
+</body>
+</html>

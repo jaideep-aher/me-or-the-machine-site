@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Me or the Machine</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one narrow column, one pair per screen, two large tappable speech lines. */
+:root{
+  --bg:#EEF1F4; --surface:#FFFFFF; --ink:#131A24; --muted:#5A6675; --line:#CBD3DC;
+  --accent:#1F4FD8; --accent-ink:#FFFFFF; --good:#11573A; --good-bg:#DDF2E7; --bad:#8F2A20; --bad-bg:#F8E1DD;
+  --display:"Bricolage Grotesque","Avenir Next",system-ui,sans-serif;
+  --body:"Instrument Sans","Helvetica Neue",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F141B; --surface:#182029; --ink:#E9EEF4; --muted:#9AA7B6; --line:#2C3743;
+  --accent:#7FA2FF; --accent-ink:#0B1220; --good:#6FD3A4; --good-bg:#163527; --bad:#F09A8E; --bad-bg:#3A1C18; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F141B; --surface:#182029; --ink:#E9EEF4; --muted:#9AA7B6; --line:#2C3743;
+  --accent:#7FA2FF; --accent-ink:#0B1220; --good:#6FD3A4; --good-bg:#163527; --bad:#F09A8E; --bad-bg:#3A1C18; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+main{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,9vw,52px);line-height:1;letter-spacing:-0.02em;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:500;font-size:24px;line-height:1.15;margin:0;text-wrap:balance}
+p{margin:0;color:var(--muted)}
+.stack{display:flex;flex-direction:column;gap:14px}
+label{font-size:14px;font-weight:500;color:var(--ink)}
+input[type=text]{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px;min-height:48px;width:100%;box-sizing:border-box}
+.btn{font:inherit;font-weight:600;color:var(--accent-ink);background:var(--accent);border:0;border-radius:6px;padding:14px 18px;min-height:48px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.err{color:var(--bad);font-size:14px}
+.meta{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .2s ease}
+.line{display:block;width:100%;text-align:left;font:inherit;font-size:18px;line-height:1.45;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 16px;cursor:pointer;min-height:72px}
+.line:hover{border-color:var(--accent)}
+.line b{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.score{font-family:var(--display);font-weight:700;font-size:72px;line-height:1;font-variant-numeric:tabular-nums}
+.row{border-top:1px solid var(--line);padding:14px 0;display:flex;flex-direction:column;gap:6px}
+.row .t{font-size:13px;color:var(--muted)}
+.row .q{font-size:15px}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:4px;margin-right:6px}
+.tag.ok{background:var(--good-bg);color:var(--good)} .tag.no{background:var(--bad-bg);color:var(--bad)}
+.acts{display:flex;gap:10px;flex-wrap:wrap}
+textarea{font:13px/1.4 ui-monospace,Menlo,monospace;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px;width:100%;box-sizing:border-box;min-height:90px}
+@media (prefers-reduced-motion: reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <section id="start" class="stack">
+    <h1>Is it Jaideep, or his AI twin?</h1>
+    <p>You will see 20 lines, one at a time. Some were really said by Jaideep (recorded by his wearable) and some were written by an AI imitating him. For each one, tap who you think said it. Answers are shown at the end.</p>
+    <div class="stack">
+      <label for="who">Your first name</label>
+      <input type="text" id="who" autocomplete="off" maxlength="30">
+      <div class="err" id="whoErr" hidden>Enter your name to start.</div>
+      <button class="btn" id="go" type="button">Start</button>
+    </div>
+  </section>
+
+  <section id="play" class="stack" hidden>
+    <div class="meta"><span id="count"></span><span>Who said this?</span></div>
+    <div class="bar"><i id="prog"></i></div>
+    <h2 id="topic"></h2>
+    <div class="acts">
+      <button class="btn" id="optA" type="button" style="flex:1">Really Jaideep</button>
+      <button class="btn ghost" id="optB" type="button" style="flex:1">AI twin</button>
+    </div>
+  </section>
+
+  <section id="end" class="stack" hidden>
+    <p id="endWho"></p>
+    <div class="score" id="score"></div>
+    <p id="verdict"></p>
+    <div id="rows"></div>
+    <p id="saved"></p>
+    <label for="out">Backup copy of these results</label>
+    <textarea id="out" readonly></textarea>
+    <div class="acts">
+      <button class="btn" id="copy" type="button">Copy results</button>
+      <button class="btn ghost" id="again" type="button">Play again</button>
+    </div>
+  </section>
+</main>
+<script>
+const LINES=[
+[1,1,"I had an individual room, but then the kitchen was shared with five people."],
+[2,1,"Yeah, I went to, I went to, I think I went to 15 parties in two days."],
+[3,1,"But if I have a low price, I cannot go high from there."],
+[4,1,"No, but then you have to create the account, you have to verify the OTP and all that stuff."],
+[5,1,"Do you use Google Calendar as your primary or what do you use?"],
+[6,1,"They were standing on a table and they were like come and talk and they were trying to sell their products to these people and I was like what the fuck?"],
+[7,1,"That and maybe I'll see like what are the profit making units and focus on increasing those profits so at least that will like soften a little bit, you know what I mean?"],
+[8,1,"Yeah, I think buy Facebook Marketplace, Facebook groups, Facebook groups of university students."],
+[9,0,"I mean, the food here is fine, but like I miss proper spicy food, you know what I mean?"],
+[10,0,"Wait, so is the assignment due tonight or like tomorrow morning?"],
+[11,0,"Honestly I just put everything in one doc and then figure it out later and stuff."],
+[12,0,"I think the bus takes like twenty minutes, but if you miss it you're basically walking."],
+[13,0,"No, no, I already tried that, it works on my laptop but not on the phone."],
+[14,0,"So basically the professor was like, just build something crazy, and I was like, okay, sure."],
+[15,0,"I was thinking we split it, like you do the slides and I'll do the demo part."],
+[16,1,"I don't think you should get this one though."],
+[17,1,"Also do you want to do a quick meetup or something like that, maybe tomorrow or today, whatever before some meeting."],
+[18,1,"I'm building my own launcher, which has aesthetic capabilities in itself."],
+[19,1,"Do you know there's a phone brand called Nothing?"],
+[20,1,"Until I do those to-do's, my apps won't open on my phone."],
+[21,1,"I don't know if I'm going to go or not, because the hurricane is actually possible."],
+[22,1,"No, I just forgot to bring my charger to university."],
+[23,1,"Oh, has it started or is it going to start?"],
+[24,1,"Because one time a waymo dropped me on a hill, on a slope, and I was unable to open the door."],
+[25,1,"If in the morning I didn't write the plan for the day, it blocks."],
+[26,1,"Mindless scrolling, and then in your scrolling there is content that you want."],
+[27,1,"But Berkeley has more, like, way too much student population."],
+[28,1,"Yeah, yeah, maybe 12 to 1, yeah that should work."],
+[29,1,"I don't know man, but it's like I could do more with this one."],
+[30,1,"And yeah, I tried to work in startups after graduating."],
+[31,0,"Wait, is the library open till midnight or is it like ten on weekends?"],
+[32,0,"I mean, I'd rather just build the thing first and then see if anyone wants it."],
+[33,0,"Yeah, so I think, I think we should just meet after class and finish it there."],
+[34,0,"No, the app works, it's just that the notifications come like ten minutes late."],
+[35,0,"I don't know man, the coffee here is fine but it's like way too expensive."],
+[36,0,"So what I do is I just block the apps till I finish the work, and it kind of works."],
+[37,0,"Do you know there's a bus that goes straight to the airport from here?"],
+[38,0,"Honestly, I thought the deadline was Friday, so I didn't even start."],
+[39,0,"Like you write the prompt once and then it just keeps running in the background and stuff like that."],
+[40,0,"I was going to come, but then it started raining and I didn't have an umbrella."],
+[41,0,"Wait, are you taking that class next semester or you're done with electives?"],
+[42,0,"It's not that the phone is bad, it's like the battery just dies by evening, you know what I mean?"],
+[43,0,"Yeah, maybe around five, five thirty, I'll text you when I'm leaving."],
+[44,0,"And then the demo crashed right when I opened it in front of everyone."],
+[45,0,"I think San Francisco is nice, but like you cannot live there without a car, I feel."],
+[46,1,"Oh my god, you're leeching my time bro."],
+[47,1,"I'm not gonna lie, it knows so many things about me."],
+[48,1,"Do you know they have the most GPUs of any other company?"],
+[49,1,"Oh my god this guy has not replied man."],
+[50,1,"I mean most of my classes I dump everything into it and make it audio summaries and I'm listening to my class."],
+[51,1,"Actually, I was working from California over the summer, and I was riding in a Tesla."],
+[52,1,"There is a shop in Raleigh and they sell pretty good food."],
+[53,1,"Do you guys know what movie is being played here?"],
+[54,1,"I don't know how to book these tickets."],
+[55,1,"Oh my god, it's way too much cheaper."],
+[56,0,"Oh my god, why is this wifi so slow today man."],
+[57,0,"Bro, I literally slept at four and still made it to the nine am class."],
+[58,0,"Do you know you can run these models on your own laptop now?"],
+[59,0,"I'm not gonna lie, I didn't read the paper, I just asked the AI to explain it."],
+[60,0,"Wait, hold on, who is paying for this, are we splitting or what?"],
+[61,0,"Actually last year I was in a totally different city and I didn't know anyone there."],
+[62,0,"There's this place near campus, they do really good biryani, we should go sometime."],
+[63,0,"I don't know how people wake up at six and go to the gym, I really don't."],
+[64,0,"Oh my god, it's so much colder than I thought it would be."],
+[65,0,"I mean, I record everything anyway, so I'll just check what was said later."],
+[66,1,"I think it will take me like five minutes."],
+[67,1,"Don't you have some kind of tablet or something to fix it?"],
+[68,1,"I have a meeting from 7.30 to 8.30 and then from 9.00 ok so I'll be there after 9.00 9.30"],
+[69,1,"It's a thing that I wear on my head."],
+[70,1,"You don't have to even open your email or something like that."],
+[71,1,"Oh, I thought one person was doing it."],
+[72,1,"And I want to check everyone has done that stuff without AI, because I have been penalized one time."],
+[73,1,"Yeah, because they also gave me cloud credits for the cloud API."],
+[74,1,"Okay, last week I was at the courier service."],
+[75,1,"Motherboard means like, you have a PC, right?"],
+[76,1,"So I recollect that, what time is it again?"],
+[77,1,"Like you think about the product and then after so many years the product is launched."],
+[78,1,"Wait, the least thing that you could do is like use this auto AI apply or something like that."],
+[79,1,"In this negotiation I did not have a partner."],
+[80,1,"I run my own application on it, and then whatever my agent's thing goes, it runs on that."],
+[81,0,"Give me two minutes, I'm just pushing the code."],
+[82,0,"Can I borrow your charger for like ten minutes?"],
+[83,0,"I have class till six and then a call at seven, so maybe after eight, eight thirty."],
+[84,0,"It's a thing that sits on my wrist and listens the whole day."],
+[85,0,"You don't even have to type anything, it just fills the form and stuff like that."],
+[86,0,"Oh, I didn't know it was due today."],
+[87,0,"I want everyone to send their part by tonight, because last time we were late."],
+[88,0,"Yeah, because the free plan only gives you like a hundred requests."],
+[89,0,"Okay, yesterday I spent two hours at the phone repair shop."],
+[90,0,"API means like, one app is talking to another app, right?"],
+[91,0,"Wait, which building is the class in again?"],
+[92,0,"Like you build the whole thing and then nobody even opens it."],
+[93,0,"Wait, the least you could do is like reply to the email or something."],
+[94,0,"In that group project I basically did not have a team."],
+[95,0,"I gave it my calendar, and then whatever deadline comes, it calls me on that."]
+];
+const PER=15;
+const KEY="sb_publishable_EpbMeBPfFfQJJUjr72Qx8Q_CBuhJwDF";
+
+const SET="D";
+const FIXED=[2,4,16,19,24,47,49,55,69,75,13,14,39,44,56,59,62,84,90,95];
+function deal(){return shuffle(LINES.filter(l=>FIXED.includes(l[0])))}
+const $=id=>document.getElementById(id);
+let order=[],i=0,answers=[],name="";
+function shuffle(a){for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a}
+function show(id){["start","play","end"].forEach(s=>$(s).hidden=s!==id);window.scrollTo(0,0)}
+function round(){
+  $("count").textContent=(i+1)+" of "+order.length;
+  $("prog").style.width=(i/order.length*100)+"%";
+  $("topic").textContent="\u201C"+order[i][2]+"\u201D";
+}
+function pick(saidReal){
+  const L=order[i];
+  answers.push({id:L[0],real:L[1]===1,guessedReal:saidReal,correct:saidReal===(L[1]===1)});
+  i++; if(i<order.length){round();$("optA").blur();$("optB").blur()} else finish();
+}
+function finish(){
+  const ok=answers.filter(a=>a.correct).length,n=answers.length;
+  const fooled=answers.filter(a=>!a.real&&a.guessedReal).length,twins=answers.filter(a=>!a.real).length;
+  $("endWho").textContent=name+", you got";
+  $("score").textContent=ok+" / "+n;
+  $("verdict").textContent="The twin passed as Jaideep on "+fooled+" of its "+twins+" lines. Pure guessing would get about "+Math.round(n/2)+" right.";
+  const rows=$("rows");rows.innerHTML="";
+  answers.forEach(a=>{const p=LINES.find(x=>x[0]===a.id);const d=document.createElement("div");d.className="row";
+    const t=document.createElement("div");t.className="t";t.textContent=a.real?"Really Jaideep":"AI twin";
+    const q=document.createElement("div");q.className="q";
+    const tag=document.createElement("span");tag.className="tag "+(a.correct?"ok":"no");tag.textContent=a.correct?"Right":"Wrong";
+    q.append(tag,p[2]);d.append(t,q);rows.append(d)});
+  $("out").value=JSON.stringify({friend:name,set:SET,when:new Date().toISOString(),score:ok,of:n,twinPassed:fooled,twinLines:twins,answers:answers.sort((a,b)=>a.id-b.id).map(a=>({line:a.id,real:a.real,guessedReal:a.guessedReal}))});
+  const rec=JSON.parse($("out").value);
+  $("saved").textContent="Sending your result to Jaideep.";
+  fetch("https://dtxmgjoemdjkijinfihu.supabase.co/rest/v1/me_or_machine_results",{method:"POST",headers:{"apikey":KEY,"Authorization":"Bearer "+KEY,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify({friend:rec.friend.slice(0,40),set_name:rec.set,score:rec.score,total:rec.of,answers:rec.answers})})
+   .then(r=>{$("saved").textContent=r.ok?"Your result was sent to Jaideep. Thank you.":"Sending failed. Please copy the backup below and message it to Jaideep."},()=>{$("saved").textContent="Sending failed. Please copy the backup below and message it to Jaideep."});
+  show("end");
+}
+$("go").addEventListener("click",()=>{
+  name=$("who").value.trim();
+  if(!name){$("whoErr").hidden=false;$("who").focus();return}
+  order=deal();i=0;answers=[];round();show("play");
+});
+$("who").addEventListener("input",()=>{$("whoErr").hidden=true});
+$("who").addEventListener("keydown",e=>{if(e.key==="Enter")$("go").click()});
+$("optA").addEventListener("click",()=>pick(true));
+$("optB").addEventListener("click",()=>pick(false));
+$("copy").addEventListener("click",()=>{
+  const t=$("out");
+  const done=()=>{$("copy").textContent="Copied"};
+  const fallback=()=>{t.focus();t.select();$("copy").textContent="Selected, now copy"};
+  try{navigator.clipboard.writeText(t.value).then(done,fallback)}catch(e){fallback()}
+});
+$("again").addEventListener("click",()=>{$("who").value="";$("copy").textContent="Copy results";show("start");$("who").focus()});
+</script>
+</body>
+</html>
