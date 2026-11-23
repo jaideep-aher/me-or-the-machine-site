@@ -2,9 +2,9 @@
 
 Public web page and live test for **Me or the Machine**, a Responsible AI final project (AIPI 590, Duke University, Fall 2026) by Jaideep Aher.
 
-**Question:** if an AI writes one sentence in my voice, can the people closest to me tell it is not me?
+**My girlfriend vs. an AI: who knows me better?** A Bee pendant has recorded nearly everything I have said, 24/7, since 2 October 2026. An AI needed 48 of my lines from it to write 47 more in my voice.
 
-**Result so far:** ten people who know me were right on 111 of 250 judgments (44%), no better than a coin flip.
+**Result:** ten people who know me were right on 78 of 160 saved judgments (49%), a coin flip. My girlfriend scored 50%.
 
 | Link | What it is |
 |---|---|

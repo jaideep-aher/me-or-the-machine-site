@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Me or the Machine</title>
+<meta property="og:title" content="My girlfriend vs. an AI: who knows me better?">
 <meta name="description" content="A pilot study: ten people who know me tried to tell my real sentences from ones an AI wrote in my voice. They did no better than a coin flip.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap">
 <style>
@@ -18,7 +19,11 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font
 .wrap{max-width:1080px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
 section{padding-block:72px;border-top:1px solid var(--line)}
 h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
-h1{font-weight:800;font-size:clamp(52px,10vw,124px);line-height:.9;letter-spacing:-.035em}
+h1{font-weight:800;font-size:clamp(44px,7.4vw,92px);line-height:.94;letter-spacing:-.03em}
+.kicker{font-family:var(--display);font-weight:700;font-size:20px;color:var(--accent);margin-bottom:14px}
+.pendant{display:flex;gap:14px;align-items:flex-start;margin-top:22px;padding:16px 18px;border:1px solid var(--line);border-radius:12px;background:var(--surface);max-width:46ch}
+.pendant b{font-family:var(--display);font-size:22px;display:block;line-height:1.2}
+.pendant p{margin:4px 0 0;font-size:16px;color:var(--muted)}
 h2{font-weight:700;font-size:clamp(32px,5vw,52px);line-height:1;letter-spacing:-.02em;margin-bottom:20px}
 h3{font-weight:700;font-size:22px;line-height:1.2;margin-bottom:6px}
 p{margin:0 0 14px;max-width:62ch}
@@ -97,9 +102,10 @@ footer p{max-width:80ch}
 
 <section class="hero split">
   <div>
-    <h1>Me or the Machine</h1>
-    <p class="lede" style="margin-top:24px">An AI read my recorded speech and wrote sentences in my voice. Then I asked ten people who know me to tell my sentences from its sentences.</p>
-    <p class="lede">They couldn't.</p>
+    <div class="kicker">Me or the Machine</div>
+    <h1>My girlfriend vs. an AI: who knows me better?</h1>
+    <div class="pendant"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;color:var(--accent)"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v4"/></svg><div><b>A pendant has heard me talk 24/7 for 7 weeks.</b><p>Every conversation since 2 October, recorded and transcribed. An AI needed just 48 of my lines from it to write 47 more in my voice.</p></div></div>
+    <p class="lede" style="margin-top:22px">Ten people who know me tried to tell my lines from the AI's. My girlfriend scored 50%, on her third try. So would a coin.</p>
     <p class="byline">Jaideep Aher, AIPI 590 Responsible AI, Duke University, fall 2026</p>
     <div class="cta"><a class="btn" href="play/">Take the 20-line test</a><a class="btn alt" href="#found">See the results</a></div>
   </div>
@@ -152,7 +158,7 @@ footer p{max-width:80ch}
   <h2>How the test worked</h2>
   <div class="split">
     <div>
-      <p>I took 48 standalone sentences I really said from my own Bee wearable, after removing anything private: relationships, health, family, money, and any line naming someone.</p>
+      <p>My Bee pendant has recorded nearly everything I have said since 2 October 2026. From those seven weeks I took 48 standalone sentences, after removing anything private: relationships, health, family, money, and any line naming someone.</p>
       <p>A language model read them and wrote 47 new sentences in my voice.</p>
       <p>Friends saw one shuffled line at a time and pressed "really him" or "AI twin". Nobody saw the answers until the end, and everyone knew in advance that some lines were fake.</p>
     </div>
