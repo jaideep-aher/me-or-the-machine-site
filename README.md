@@ -22,6 +22,10 @@ flowchart LR
 ```
 Why this picture: what happens when a friend takes the test and where their answers go.
 
+## Jarvis
+
+The page also shows Jarvis, the personal AI I built and connected to the pendant, three Gmail accounts, my calendar, Canvas, phone location and app use: 7,273 remembered items from 11 sources. Screenshots are cropped so no other person is named.
+
 ## Files
 
 | Path | What it is |
