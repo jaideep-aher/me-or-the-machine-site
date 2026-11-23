@@ -4,160 +4,334 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Me or the Machine</title>
-<meta name="description" content="A pilot study: can the people closest to me tell one sentence I said from one an AI wrote in my voice?">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap">
+<meta name="description" content="A pilot study: ten people who know me tried to tell my real sentences from ones an AI wrote in my voice. They did no better than a coin flip.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap">
 <style>
-/* Layout: one editorial column, a dark result block, evidence below it. Tokens match DESIGN.md. */
-:root{--bg:#EEF1F4;--surface:#FFFFFF;--ink:#131A24;--muted:#4D5968;--line:#C3CCD6;--accent:#1F4FD8;--twin:#B34E14;--hero:#131A24;--hero-ink:#FFFFFF;--hero-muted:#B9C4D2;--track:#D9E0E8;
+/* Tokens match DESIGN.md: cobalt is always me, burnt orange is always the twin. */
+:root{--bg:#EEF1F4;--surface:#FFFFFF;--ink:#131A24;--muted:#4D5968;--line:#C3CCD6;--accent:#1F4FD8;--twin:#B34E14;--accent-soft:#DCE4FA;--twin-soft:#F6E1D3;--track:#D9E0E8;--bubble:#E2E7ED;
  --display:"Bricolage Grotesque","Avenir Next",system-ui,sans-serif;--body:"Instrument Sans","Helvetica Neue",system-ui,sans-serif}
-@media (prefers-color-scheme: dark){:root{--bg:#0F141B;--surface:#182029;--ink:#E9EEF4;--muted:#9AA7B6;--line:#2C3743;--accent:#7FA2FF;--twin:#F0A067;--hero:#1D2733;--track:#2C3743;color-scheme:dark}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0F141B;--surface:#182029;--ink:#E9EEF4;--muted:#9AA7B6;--line:#2C3743;--accent:#7FA2FF;--twin:#F0A067;--accent-soft:#1E2A47;--twin-soft:#3A2618;--track:#2C3743;--bubble:#222C37;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F141B;--surface:#182029;--ink:#E9EEF4;--muted:#9AA7B6;--line:#2C3743;--accent:#7FA2FF;--twin:#F0A067;--accent-soft:#1E2A47;--twin-soft:#3A2618;--track:#2C3743;--bubble:#222C37;color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
-main{max-width:760px;margin:0 auto;padding:40px max(16px,env(safe-area-inset-right,0px)) 72px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:44px}
-h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,11vw,84px);line-height:.95;letter-spacing:-.025em;margin:0 0 16px;text-wrap:balance}
-h2{font-family:var(--display);font-weight:700;font-size:26px;line-height:1.1;margin:0 0 12px;text-wrap:balance}
-p{margin:0 0 12px;max-width:65ch}
-.kicker{font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
-.lede{font-family:var(--display);font-weight:500;font-size:clamp(20px,4.6vw,26px);line-height:1.4;max-width:26ch}
-.meta{color:var(--muted);font-size:14px}
-.hero{background:var(--hero);color:var(--hero-ink);border-radius:8px;padding:28px 24px}
-.hero .big{font-family:var(--display);font-weight:700;font-size:clamp(96px,30vw,180px);line-height:.85;letter-spacing:-.04em}
-.hero .cap{font-size:20px;line-height:1.45;margin-top:14px}
-.hero .sub{font-size:14px;color:var(--hero-muted);margin-top:8px}
-.bar{display:grid;grid-template-columns:minmax(0,1fr) 64px;gap:6px 12px;align-items:center;margin-bottom:14px}
-.bar .lab{grid-column:1/3;font-size:15px}
-.track{height:22px;background:var(--track);border-radius:3px;position:relative}
-.track i{position:absolute;inset:0 auto 0 0;border-radius:3px}
-.track b{position:absolute;left:50%;top:-4px;bottom:-4px;border-left:2px dashed var(--ink)}
-.num{font-family:var(--display);font-weight:700;font-size:24px;text-align:right;font-variant-numeric:tabular-nums}
-.tw{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums;min-width:420px}
-th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}
-th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
-.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-.quote{background:var(--surface);border-radius:4px;padding:12px 14px;border:1px solid var(--line)}
-.quote span{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
-.quote.t span{color:var(--twin)}
-ul{margin:0;padding-left:20px;max-width:65ch} li{margin-bottom:8px}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;counter-reset:s}
-.steps div{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:12px;font-size:15px;line-height:1.4}
-.steps b{display:block;font-family:var(--display);font-size:17px;margin-bottom:2px}
-a{color:var(--accent)} a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.btn{display:inline-block;font-weight:600;color:var(--bg);background:var(--ink);border-radius:6px;padding:13px 18px;text-decoration:none;min-height:48px}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+section{padding-block:72px;border-top:1px solid var(--line)}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+h1{font-weight:800;font-size:clamp(52px,10vw,124px);line-height:.9;letter-spacing:-.035em}
+h2{font-weight:700;font-size:clamp(32px,5vw,52px);line-height:1;letter-spacing:-.02em;margin-bottom:20px}
+h3{font-weight:700;font-size:22px;line-height:1.2;margin-bottom:6px}
+p{margin:0 0 14px;max-width:62ch}
+.lede{font-size:clamp(19px,2.4vw,23px);line-height:1.5;color:var(--muted);max-width:44ch}
+.muted{color:var(--muted)} .small{font-size:15px}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:56px;align-items:start}
+@media (max-width:860px){.split{grid-template-columns:minmax(0,1fr);gap:32px}}
+
+/* Hero: the phone thread */
+.hero{padding-block:56px 72px;border-top:0}
+.byline{font-size:15px;color:var(--muted);margin-top:22px}
+.phone{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:18px 16px 20px;max-width:400px;justify-self:end;width:100%}
+@media (max-width:860px){.phone{justify-self:start}}
+.phone .who{display:flex;align-items:center;gap:10px;padding:0 8px 14px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--surface);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:16px}
+.phone .who b{display:block;font-size:16px;line-height:1.2} .phone .who span{font-size:13px;color:var(--muted)}
+.msg{background:var(--bubble);border-radius:18px 18px 18px 6px;padding:10px 14px;font-size:16px;line-height:1.4;max-width:86%;margin-bottom:8px}
+.verdict{margin-top:18px;display:grid;gap:8px}
+.vote{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted);padding:10px 8px;border-top:1px dashed var(--line)}
+.vote strong{color:var(--accent);font-weight:600}
+.reveal{border:0;width:100%;font:600 16px var(--body);background:var(--ink);color:var(--bg);border-radius:12px;padding:14px;cursor:pointer;min-height:48px}
+.answer{border-radius:12px;padding:14px 16px;background:var(--twin-soft);color:var(--ink);font-size:16px;line-height:1.45}
+.answer b{color:var(--twin)}
+@media (prefers-reduced-motion:no-preference){.answer{animation:in .22s ease-out}@keyframes in{from{opacity:0;transform:translateY(6px)}}}
+
+/* Threat chain */
+.chain{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:28px;counter-reset:c}
+.chain li{list-style:none;padding:20px 22px 20px 0;border-top:3px solid var(--ink);position:relative}
+.chain li:last-child{border-top-color:var(--twin)}
+.chain li svg{display:block;margin-bottom:14px}
+.chain li p{font-size:16px;color:var(--muted);margin:0}
+.chain{padding:0}
+@media (max-width:760px){.chain{grid-template-columns:minmax(0,1fr)}.chain li{padding:18px 0}}
+
+/* Why: figures */
+.figs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:28px 0 8px;border-left:1px solid var(--line)}
+.fig{padding:4px 24px 8px;border-right:1px solid var(--line)}
+.fig .n{font-family:var(--display);font-weight:800;font-size:clamp(40px,6vw,64px);line-height:1;letter-spacing:-.03em}
+.fig p{font-size:15px;color:var(--muted);margin:8px 0 0}
+@media (max-width:760px){.figs{grid-template-columns:minmax(0,1fr);border-left:0}.fig{border-right:0;border-bottom:1px solid var(--line);padding:16px 0}}
+
+/* Findings */
+.finding{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:48px;padding-block:40px;border-top:1px solid var(--line)}
+.finding:first-of-type{border-top:0;padding-top:8px}
+@media (max-width:860px){.finding{grid-template-columns:minmax(0,1fr);gap:20px}}
+.big{font-family:var(--display);font-weight:800;font-size:clamp(64px,11vw,120px);line-height:.85;letter-spacing:-.04em;margin-bottom:12px}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;min-width:0}
+.chart svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--muted);margin-top:12px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.scroll{overflow-x:auto}
+svg text{font-family:var(--body);fill:var(--muted)}
+
+/* Significance + next */
+.points{display:grid;gap:0;margin-top:12px}
+.point{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:48px;padding-block:22px;border-top:1px solid var(--line)}
+.point h3{font-size:24px}
+.point p{margin:0;color:var(--muted)}
+@media (max-width:860px){.point{grid-template-columns:minmax(0,1fr);gap:6px}}
+.next{counter-reset:n;padding:0;margin:20px 0 0}
+.next li{list-style:none;display:grid;grid-template-columns:56px minmax(0,1fr);gap:8px;padding-block:18px;border-top:1px solid var(--line)}
+.next li::before{counter-increment:n;content:counter(n);font-family:var(--display);font-weight:800;font-size:32px;line-height:1;color:var(--accent)}
+.next li p{margin:0;color:var(--muted)}
+.cta{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:32px}
+.btn{display:inline-flex;align-items:center;min-height:48px;font-weight:600;color:var(--bg);background:var(--ink);border-radius:12px;padding:12px 20px;text-decoration:none}
+.btn.alt{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+footer{padding-block:40px 64px;border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+footer p{max-width:80ch}
 </style>
 </head>
 <body>
-<main>
-  <header>
+<main class="wrap">
+
+<section class="hero split">
+  <div>
     <h1>Me or the Machine</h1>
-    <p class="lede">If an AI writes one sentence in my voice, can the people closest to me tell it is not me?</p>
-    <p class="meta">Jaideep Aher · Duke University · AIPI 590 Responsible AI · Fall 2026 · pilot study</p>
-  </header>
-
-  <section>
-    <div class="hero">
-      <div class="big">44%</div>
-      <div class="cap">of 250 judgments were right. No better than a coin flip.</div>
-      <div class="sub">111 of 250 · 95% interval 38% to 51% · exact binomial p = 0.09 against chance · 10 judges</div>
+    <p class="lede" style="margin-top:24px">An AI read my recorded speech and wrote sentences in my voice. Then I asked ten people who know me to tell my sentences from its sentences.</p>
+    <p class="lede">They couldn't.</p>
+    <p class="byline">Jaideep Aher, AIPI 590 Responsible AI, Duke University, fall 2026</p>
+    <div class="cta"><a class="btn" href="play/">Take the 20-line test</a><a class="btn alt" href="#found">See the results</a></div>
+  </div>
+  <div class="phone" aria-label="Example from the test">
+    <div class="who"><div class="avatar" aria-hidden="true">J</div><div><b>Jaideep</b><span>one line, no context</span></div></div>
+    <div class="msg">There's this place near campus, they do really good biryani, we should go sometime.</div>
+    <div class="verdict">
+      <div class="vote"><span>Four friends judged this line</span><strong>4 of 4 said "it's him"</strong></div>
+      <button class="reveal" id="reveal" type="button" aria-expanded="false" aria-controls="answer">Who actually wrote it?</button>
+      <div class="answer" id="answer" hidden><b>The AI twin wrote it.</b> It was the only line all four friends agreed on, and they were all wrong.</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section>
-    <h2>The twin passed more often than I did</h2>
-    <div class="bar"><div class="lab">My real lines that judges called "him" (45 of 80)</div><div class="track"><i style="width:56%;background:var(--accent)"></i><b></b></div><div class="num">56%</div></div>
-    <div class="bar"><div class="lab">AI twin lines that judges called "him" (47 of 80)</div><div class="track"><i style="width:59%;background:var(--twin)"></i><b></b></div><div class="num">59%</div></div>
-    <p class="meta">The dashed line marks 50%. Based on the 160 judgments where each answer was saved.</p>
-  </section>
+<section id="problem">
+  <h2>The problem</h2>
+  <p class="lede">A recording pendant hears months of how you talk. That is exactly what someone needs to write messages that sound like you.</p>
+  <ol class="chain">
+    <li>
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg>
+      <h3>Your speech is recorded</h3><p>A wearable turns every conversation into searchable text.</p>
+    </li>
+    <li>
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg>
+      <h3>The transcripts leak</h3><p>A breach, a shared export or a malicious companion app copies them.</p>
+    </li>
+    <li>
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
+      <h3>An AI learns your voice</h3><p>A language model is prompted with your words and writes new ones.</p>
+    </li>
+    <li style="color:var(--twin)">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
+      <h3 style="color:var(--ink)">A friend gets a text</h3><p>"Lost my card, can you send me 200?" This study tests whether they notice.</p>
+    </li>
+  </ol>
+</section>
 
-  <section>
-    <h2>Goal</h2>
-    <p>Find out whether the people closest to me are a real safeguard against an AI that writes as me, using my own recorded speech as the twin's source, and make that risk concrete enough to act on.</p>
-  </section>
+<section id="why">
+  <h2>Why it matters now</h2>
+  <p class="lede">Recording pendants now sell by the million, and losses to AI-powered fraud are counted in the hundreds of millions.</p>
+  <div class="figs">
+    <div class="fig"><div class="n">2M+</div><p>Plaud recording devices sold, as reported by the company. Amazon bought Bee, the pendant used here, in July 2025; Meta bought Limitless in December.</p></div>
+    <div class="fig"><div class="n">$893M</div><p>Reported US losses to AI-enabled scams in 2025, FBI Internet Crime Report.</p></div>
+    <div class="fig"><div class="n">22,000+</div><p>Complaints to the FBI that involved AI in 2025. The FTC has warned since 2023 about fakes of family members in distress.</p></div>
+  </div>
+  <p class="muted small" style="margin-top:18px">We tend to assume the people closest to us are the last line of defence: "I'd know if it wasn't them." I tested that on myself.</p>
+</section>
 
-  <section>
-    <h2>How a bad actor could use this</h2>
-    <p>Recording pendants are going mainstream. Plaud reports more than 2 million devices sold; Amazon bought Bee, the pendant used here, in July 2025, and Meta bought Limitless in December 2025. Each one holds months of how its owner talks.</p>
-    <div class="steps">
-      <div><b>1. Get the speech</b>A breach, a leaked export or a malicious companion app copies the transcripts.</div>
-      <div><b>2. Build the twin</b>A language model is prompted or tuned on them to write in the owner's voice.</div>
-      <div><b>3. Send as them</b>A short text to a friend or parent: "lost my card, can you send me…"</div>
-      <div><b>4. Nobody notices</b>In this study, close friends spotted the twin no better than a coin flip.</div>
+<section id="how">
+  <h2>How the test worked</h2>
+  <div class="split">
+    <div>
+      <p>I took 48 standalone sentences I really said from my own Bee wearable, after removing anything private: relationships, health, family, money, and any line naming someone.</p>
+      <p>A language model read them and wrote 47 new sentences in my voice.</p>
+      <p>Friends saw one shuffled line at a time and pressed "really him" or "AI twin". Nobody saw the answers until the end, and everyone knew in advance that some lines were fake.</p>
     </div>
-    <p style="margin-top:14px">This is not hypothetical. The FBI's 2025 Internet Crime Report counted more than 22,000 complaints involving AI-enabled scams and about $893 million in reported losses, and the FTC has warned since 2023 about scammers posing as family members in distress.</p>
-    <p class="meta">Defences: agree a family question only the real person can answer, call back on a known number before sending money, and prefer wearables that keep transcripts on the device.</p>
-  </section>
-
-  <section>
-    <h2>How the test works</h2>
-    <div class="steps">
-      <div><b>Real me</b>48 lines I actually said, taken from my wearable recorder.</div>
-      <div><b>Twin</b>47 lines a language model wrote to sound like me.</div>
-      <div><b>Blind test</b>One shuffled line at a time: really him, or AI twin?</div>
-      <div><b>Score</b>Accuracy against a coin flip, saved line by line.</div>
+    <div class="chart" aria-label="Diagram of the test">
+      <svg viewBox="0 0 520 220" role="img" aria-label="Real lines and twin lines are shuffled into one blind test; each answer is scored">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+        <g style="color:var(--muted)">
+        <rect x="4" y="20" width="150" height="70" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+        <text x="79" y="50" text-anchor="middle" style="fill:var(--ink);font-weight:600;font-size:15px">48 real lines</text><text x="79" y="70" text-anchor="middle" style="font-size:13px">from my wearable</text>
+        <rect x="4" y="130" width="150" height="70" rx="6" fill="var(--twin-soft)" stroke="var(--twin)"/>
+        <text x="79" y="160" text-anchor="middle" style="fill:var(--ink);font-weight:600;font-size:15px">47 twin lines</text><text x="79" y="180" text-anchor="middle" style="font-size:13px">written by an AI</text>
+        <rect x="200" y="70" width="140" height="80" rx="6" fill="var(--surface)" stroke="var(--ink)"/>
+        <text x="270" y="104" text-anchor="middle" style="fill:var(--ink);font-weight:600;font-size:15px">Blind test</text><text x="270" y="124" text-anchor="middle" style="font-size:13px">one line at a time</text>
+        <rect x="384" y="70" width="132" height="80" rx="6" fill="var(--surface)" stroke="var(--ink)"/>
+        <text x="450" y="104" text-anchor="middle" style="fill:var(--ink);font-weight:600;font-size:15px">Scored</text><text x="450" y="124" text-anchor="middle" style="font-size:13px">against a coin flip</text>
+        <path d="M154 55 C180 55 180 95 198 98" fill="none" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar)"/>
+        <path d="M154 165 C180 165 180 125 198 122" fill="none" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar)"/>
+        <path d="M340 110 H382" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar)"/>
+        <text x="361" y="94" text-anchor="middle" style="font-size:11px">answers</text>
+        <text x="176" y="40" style="font-size:12px">shuffled</text>
+        </g>
+      </svg>
     </div>
-    <p style="margin-top:14px">Judges saw no answers until the end. Private and sensitive recordings were removed before any line was chosen, and every judge knew in advance that some lines were written by an AI.</p>
-    <p><a class="btn" href="play/">Take the 20-line test</a></p>
-  </section>
+  </div>
+</section>
 
-  <section>
-    <h2>Who judged</h2>
-    <div class="tw"><table>
-      <tr><th>Judge</th><th>Lines</th><th>Right</th><th>Twin passed</th></tr>
-      <tr><td>P1, partner</td><td>30</td><td>15 (50%)</td><td>10 of 15</td></tr>
-      <tr><td>P2, friend</td><td>20</td><td>14 (70%)</td><td>4 of 10</td></tr>
-      <tr><td>P3, friend</td><td>30</td><td>12 (40%)</td><td>9 of 15</td></tr>
-      <tr><td>P4, friend</td><td>20</td><td>10 (50%)</td><td>6 of 10</td></tr>
-      <tr><td>P5, friend</td><td>20</td><td>9 (45%)</td><td>5 of 10</td></tr>
-      <tr><td>P6, friend</td><td>20</td><td>10 (50%)</td><td>7 of 10</td></tr>
-      <tr><td>P7, friend</td><td>20</td><td>8 (40%)</td><td>6 of 10</td></tr>
-      <tr><td>P8, friend</td><td>30</td><td>12 (40%)</td><td>not saved</td></tr>
-      <tr><td>P9, friend</td><td>30</td><td>15 (50%)</td><td>not saved</td></tr>
-      <tr><td>P10, friend</td><td>30</td><td>6 (20%)</td><td>not saved</td></tr>
-      <tr><td><b>All</b></td><td><b>250</b></td><td><b>111 (44%)</b></td><td><b>47 of 80</b></td></tr>
-    </table></div>
-  </section>
+<section id="found">
+  <h2>What we found</h2>
+  <p class="lede">Ten friends judged single lines. However I count it, the result lands on a coin flip.</p>
 
-  <section>
-    <h2>What fooled them</h2>
-    <div class="quotes">
-      <div class="quote t"><span>AI twin · judged real</span>I'm not gonna lie, I didn't read the paper, I just asked the AI to explain it.</div>
-      <div class="quote t"><span>AI twin · judged real</span>And then the demo crashed right when I opened it in front of everyone.</div>
-      <div class="quote"><span>Really me · judged AI</span>No, I just forgot to bring my charger to university.</div>
-      <div class="quote"><span>Really me · judged AI</span>I think it will take me like five minutes.</div>
+  <div class="finding">
+    <div>
+      <div class="big">49%</div>
+      <h3>No better than guessing</h3>
+      <p class="muted">78 of 160 decisions with saved answers were right (likely range 41% to 56%). Averaged one friend at a time it is also 49%.</p>
+      <p class="muted small">Three more friends reported their scores without saving answers. Counting them too: 111 of 250, or 44%. Either way, a coin flip sits inside the range.</p>
     </div>
-  </section>
+    <div class="chart">
+      <div id="waffle"></div>
+      <div class="legend"><span><i style="background:var(--ink)"></i>Right (78)</span><span><i style="background:var(--track)"></i>Wrong (82)</span><span>Each square is one saved decision.</span></div>
+    </div>
+  </div>
 
-  <section>
-    <h2>What judges seemed to use</h2>
-    <ul>
-      <li><b>The twin beat me.</b> Twin lines were called "him" 47 times out of 80, my real lines 45 times.</li>
-      <li><b>Default trust.</b> Judges answered "really him" 58% of the time, which favours the impostor.</li>
-      <li><b>One friend was reliably wrong.</b> P10 scored 6 of 30, far below chance (p = 0.001): a consistent rule for spotting me, applied backwards.</li>
-      <li><b>Judges disagreed.</b> Four judges saw the same 20 lines and all agreed on just one: a twin line about a biryani place, which all four believed.</li>
-      <li><b>Pooling did not help.</b> Their majority vote was right on 3 lines, wrong on 5 and tied on 12.</li>
-    </ul>
-  </section>
+  <div class="finding">
+    <div>
+      <h3>Twin lines passed as often as mine</h3>
+      <p class="muted">The AI's lines were called "him" 59% of the time, my real lines 56%. That gap is two decisions, so the point is not that the twin won: friends could not separate the two at all.</p>
+      <p class="muted small">In signal-detection terms, sensitivity d′ = −0.06 (0 means no ability to tell them apart), and friends said "him" 58% of the time, a lean towards trust that helps an impostor.</p>
+    </div>
+    <div class="chart"><div id="bars"></div></div>
+  </div>
 
-  <section>
-    <h2>Limits</h2>
-    <ul>
-      <li>Ten judges and 250 judgments. This is a small pilot study.</li>
-      <li>Three friends' 30-line scores were reported to me and rounded to the nearest possible score; their line-by-line answers were not saved.</li>
-      <li>One sentence carries little identity. The result may say as much about the format as about the twin.</li>
-      <li>The twin lines were written by a language model in a chat session after reading my real lines, not by a deployed system.</li>
-      <li>The real lines are speech-to-text and keep its errors. One judge was on a third attempt.</li>
-    </ul>
-  </section>
+  <div class="finding">
+    <div>
+      <h3>Nobody was reliably good at it</h3>
+      <p class="muted">The best friend scored 14 of 20, which is not significant on its own. My partner scored exactly 50%. One friend reported 6 of 30. If that score is exact it is far below chance (p = 0.001), but their answers were not saved, so I cannot check why.</p>
+    </div>
+    <div class="chart"><div id="judges"></div></div>
+  </div>
 
-  <section>
-    <h2>Next</h2>
-    <ul>
-      <li>A control twin that knows nothing about me. If it passes as often, impersonation in one sentence needs no personal data.</li>
-      <li>Longer exchanges, where shared history should help the judge.</li>
-      <li>One fixed set, twenty judges, and a reason for every answer.</li>
-    </ul>
-    <p class="meta" style="margin-top:14px">Poster: <a href="poster_24x24.pdf">24 by 24 inch PDF</a>. Report: <a href="report.pdf">PDF</a>. Code and data are in a private repository shared with the course instructors.</p>
-  </section>
+  <div class="finding">
+    <div>
+      <h3>Friends didn't agree with each other</h3>
+      <p class="muted">Four friends judged the same 20 lines. They were unanimous on one line, the biryani line, and it was the twin's. Their majority vote was right on 3 lines, wrong on 5 and split on 12, so asking more people did not help.</p>
+    </div>
+    <div class="chart scroll"><div id="grid"></div>
+      <div class="legend"><span><i style="background:var(--accent)"></i>Said "really him"</span><span><i style="background:var(--twin)"></i>Said "AI twin"</span><span>Each column is one line; rows are four friends.</span></div>
+    </div>
+  </div>
+  <div class="finding">
+    <div>
+      <h3>The lines that fooled people</h3>
+      <p class="muted">Lines judged by five friends, ranked by how often they were called "him". Casual, slightly annoyed everyday lines passed best. My most technical real lines were the ones friends doubted.</p>
+    </div>
+    <div class="chart"><div id="items"></div></div>
+  </div>
+</section>
+
+<section id="significance">
+  <h2>What it means</h2>
+  <div class="points">
+    <div class="point"><h3>Short messages are the weak spot</h3><p>The cheapest attack is one short text, and that is exactly the format where people who know me well failed. "I'd know if it wasn't them" is not a safe assumption.</p></div>
+    <div class="point"><h3>Trust works against you</h3><p>Friends default to believing it's you. An impostor doesn't need a perfect imitation, only one that doesn't sound wrong.</p></div>
+    <div class="point"><h3>Recorded speech is sensitive data</h3><p>Wearable transcripts should be treated like a password: kept on the device, retained briefly, never shared by default.</p></div>
+    <div class="point"><h3>Agree a check in advance</h3><p>A family question only the real person can answer, or a call back on a known number before sending money, beats trying to spot style.</p></div>
+  </div>
+</section>
+
+<section id="next">
+  <h2>What's next</h2>
+  <ol class="next">
+    <li><div><h3>A control twin that knows nothing about me</h3><p>If a twin with no personal data passes just as often, one-line impersonation needs no data at all.</p></div></li>
+    <li><div><h3>Longer conversations</h3><p>Find the point where shared history starts to protect people.</p></div></li>
+    <li><div><h3>Twenty judges on one fixed set, with reasons</h3><p>Record why each friend chose, so the cues they rely on can be named.</p></div></li>
+    <li><div><h3>Test the defence</h3><p>Measure whether a verification question actually stops a twin.</p></div></li>
+  </ol>
+  <div class="cta"><a class="btn" href="play/">Take the 20-line test</a><a class="btn alt" href="report.pdf">Read the report</a><a class="btn alt" href="poster_24x24.pdf">Poster (PDF)</a></div>
+</section>
+
+<footer>
+  <p><b style="color:var(--ink)">Limits.</b> A small pilot: ten friends. Seven saved every answer (160 decisions); three reported 30-line scores that I rounded to the nearest possible score, so they count only in the 44% figure. The twin's lines were written by an AI with my real lines in view, the best case for the twin. I picked real lines that stand alone, which may favour generic lines a twin can copy. Real lines keep speech-to-text errors.</p>
+  <p><b style="color:var(--ink)">Ethics.</b> Every judge knew some lines were AI-written. No message was ever sent to anyone as me. Judges are anonymised, and other people's speech in my recordings was never used. Code and data are in a private repository shared with the course instructors.</p>
+  <p>Sources: <a href="https://www.malwarebytes.com/blog/scams/2026/06/americans-lost-nearly-900-million-to-ai-powered-scams-fbi-says">FBI AI scam losses (via Malwarebytes)</a>, <a href="https://sacra.com/c/plaud/">Plaud figures (Sacra)</a>, <a href="https://consumer.ftc.gov/consumer-alerts/2023/03/scammers-use-ai-enhance-their-family-emergency-schemes">FTC alert, 2023</a>.</p>
+</footer>
 </main>
+
+<script>
+const D = {"judges": [{"label": "P1 partner", "k": 15, "n": 30}, {"label": "P2", "k": 14, "n": 20}, {"label": "P3", "k": 12, "n": 30}, {"label": "P4", "k": 10, "n": 20}, {"label": "P5", "k": 9, "n": 20}, {"label": "P6", "k": 10, "n": 20}, {"label": "P7", "k": 8, "n": 20}, {"label": "P8", "k": 12, "n": 30}, {"label": "P9", "k": 15, "n": 30}, {"label": "P10", "k": 6, "n": 30}], "grid": [{"line": 2, "real": true, "votes": [true, false, true, false], "unanimous": false}, {"line": 4, "real": true, "votes": [true, true, true, false], "unanimous": false}, {"line": 16, "real": true, "votes": [true, true, false, true], "unanimous": false}, {"line": 19, "real": true, "votes": [false, false, true, true], "unanimous": false}, {"line": 24, "real": true, "votes": [true, false, true, false], "unanimous": false}, {"line": 47, "real": true, "votes": [false, true, true, false], "unanimous": false}, {"line": 49, "real": true, "votes": [true, true, true, false], "unanimous": false}, {"line": 55, "real": true, "votes": [false, false, true, false], "unanimous": false}, {"line": 69, "real": true, "votes": [true, false, false, true], "unanimous": false}, {"line": 75, "real": true, "votes": [false, false, false, true], "unanimous": false}, {"line": 13, "real": false, "votes": [true, false, false, true], "unanimous": false}, {"line": 14, "real": false, "votes": [true, false, true, false], "unanimous": false}, {"line": 39, "real": false, "votes": [true, true, true, false], "unanimous": false}, {"line": 44, "real": false, "votes": [false, true, false, true], "unanimous": false}, {"line": 56, "real": false, "votes": [true, false, true, true], "unanimous": false}, {"line": 59, "real": false, "votes": [false, true, true, false], "unanimous": false}, {"line": 62, "real": false, "votes": [true, true, true, true], "unanimous": true}, {"line": 84, "real": false, "votes": [false, true, false, true], "unanimous": false}, {"line": 90, "real": false, "votes": [false, false, true, true], "unanimous": false}, {"line": 95, "real": false, "votes": [true, false, true, false], "unanimous": false}], "saved": {"k": 78, "n": 160}, "items": [{"line": 4, "source": "real", "text": "No, but then you have to create the account, you have to verify the OTP and all that stuff.", "judges": 5, "called_him": 4}, {"line": 16, "source": "real", "text": "I don't think you should get this one though.", "judges": 5, "called_him": 4}, {"line": 39, "source": "twin", "text": "Like you write the prompt once and then it just keeps running in the background and stuff like that.", "judges": 5, "called_him": 4}, {"line": 49, "source": "real", "text": "Oh my god this guy has not replied man.", "judges": 5, "called_him": 4}, {"line": 56, "source": "twin", "text": "Oh my god, why is this wifi so slow today man.", "judges": 5, "called_him": 4}, {"line": 19, "source": "real", "text": "Do you know there's a phone brand called Nothing?", "judges": 4, "called_him": 2}, {"line": 24, "source": "real", "text": "Because one time a waymo dropped me on a hill, on a slope, and I was unable to open the door.", "judges": 4, "called_him": 2}, {"line": 55, "source": "real", "text": "Oh my god, it's way too much cheaper.", "judges": 5, "called_him": 2}, {"line": 75, "source": "real", "text": "Motherboard means like, you have a PC, right?", "judges": 5, "called_him": 2}, {"line": 90, "source": "twin", "text": "API means like, one app is talking to another app, right?", "judges": 5, "called_him": 2}]};
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent, text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+
+// Reveal
+const btn=document.getElementById("reveal"), ans=document.getElementById("answer");
+btn.addEventListener("click",()=>{ans.hidden=false;btn.hidden=true;btn.setAttribute("aria-expanded","true");});
+
+function draw(){
+  // 1. Waffle: one square per saved decision
+  const w=document.getElementById("waffle"); w.innerHTML="";
+  const T=D.saved.n, K=D.saved.k, cols=20, rows=Math.ceil(T/cols), s=22, g=5;
+  const sv=el("svg",{viewBox:`0 0 ${cols*(s+g)} ${rows*(s+g)+28}`,role:"img","aria-label":`${K} of ${T} decisions right`},w);
+  for(let i=0;i<T;i++){const c=i%cols,r=Math.floor(i/cols);el("rect",{x:c*(s+g),y:r*(s+g),width:s,height:s,rx:3,fill:i<K?css("--ink"):css("--track")},sv);}
+  const half=T/2, hx=(half%cols)*(s+g)-g/2, hy=Math.floor(half/cols)*(s+g);
+  el("path",{d:`M${hx} ${hy} V${hy+s+g} M${hx} ${hy} H${cols*(s+g)} M0 ${hy+s+g} H${hx}`,stroke:css("--twin"),"stroke-width":2.5,fill:"none"},sv);
+  el("text",{x:0,y:rows*(s+g)+20,style:"font-size:14px"},sv,"Orange line: where 50% (a coin flip) would land.");
+
+  // 2. Bars
+  const b=document.getElementById("bars"); b.innerHTML="";
+  const bv=el("svg",{viewBox:"0 0 560 190",role:"img","aria-label":"Real lines called him 56 percent, twin lines 59 percent"},b);
+  [["My real lines called \"him\"",45,80,css("--accent")],["Twin lines called \"him\"",47,80,css("--twin")]].forEach(([lab,k,n,col],i)=>{
+    const y=20+i*80, W=440;
+    el("text",{x:0,y:y,style:`font-size:15px;fill:${css("--ink")}`},bv,`${lab}  ${k} of ${n}`);
+    el("rect",{x:0,y:y+12,width:W,height:30,rx:4,fill:css("--track")},bv);
+    el("rect",{x:0,y:y+12,width:W*k/n,height:30,rx:4,fill:col},bv);
+    el("text",{x:W+14,y:y+36,style:`font-size:26px;font-weight:700;font-family:var(--display);fill:${css("--ink")}`},bv,Math.round(100*k/n)+"%");
+  });
+  el("line",{x1:220,x2:220,y1:22,y2:176,stroke:css("--ink"),"stroke-dasharray":"4 4","stroke-width":1.5},bv);
+  el("text",{x:226,y:186,style:"font-size:13px"},bv,"50%");
+
+  // 3. Judges dot plot
+  const j=document.getElementById("judges"); j.innerHTML="";
+  const W=560, L=70, R=20, row=30, H=D.judges.length*row+50;
+  const jv=el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Each judge's accuracy on a 0 to 100 percent scale"},j);
+  const X=p=>L+(W-L-R)*p;
+  [0,.25,.5,.75,1].forEach(t=>{el("line",{x1:X(t),x2:X(t),y1:10,y2:H-34,stroke:t===.5?css("--ink"):css("--line"),"stroke-dasharray":t===.5?"4 4":"","stroke-width":t===.5?1.5:1},jv);el("text",{x:X(t),y:H-14,"text-anchor":"middle",style:"font-size:13px"},jv,Math.round(t*100)+"%");});
+  D.judges.forEach((d,i)=>{const y=24+i*row, p=d.k/d.n;
+    el("text",{x:0,y:y+5,style:`font-size:14px;fill:${css("--ink")}`},jv,d.label);
+    el("line",{x1:X(.5),x2:X(p),y1:y,y2:y,stroke:css("--line"),"stroke-width":2},jv);
+    el("circle",{cx:X(p),cy:y,r:7,fill:p<.5?css("--twin"):css("--accent")},jv);
+    el("text",{x:X(p)+(p<.5?-12:12),y:y+5,"text-anchor":p<.5?"end":"start",style:"font-size:13px"},jv,`${d.k}/${d.n}`);
+  });
+
+  // 4. Agreement grid: 20 lines x 4 judges
+  const gr=document.getElementById("grid"); gr.innerHTML="";
+  const n=D.grid.length, cw=26, ch=22, top=26, left=34;
+  const gv=el("svg",{viewBox:`0 0 ${left+n*cw+4} ${top+4*ch+54}`,role:"img","aria-label":"How four friends voted on each of 20 lines",style:"min-width:560px"},gr);
+  D.grid.forEach((ln,ci)=>{
+    const x=left+ci*cw;
+    el("rect",{x:x+2,y:4,width:cw-4,height:14,rx:3,fill:ln.real?css("--accent-soft"):css("--twin-soft"),stroke:ln.real?css("--accent"):css("--twin")},gv);
+    el("text",{x:x+cw/2,y:15,"text-anchor":"middle",style:`font-size:10px;font-weight:600;fill:${ln.real?css("--accent"):css("--twin")}`},gv,ln.real?"me":"AI");
+    ln.votes.forEach((v,ri)=>{el("rect",{x:x+2,y:top+ri*ch,width:cw-4,height:ch-4,rx:3,fill:v?css("--accent"):css("--twin")},gv);});
+    if(ln.unanimous) el("rect",{x:x,y:top-3,width:cw,height:4*ch+2,rx:5,fill:"none",stroke:css("--ink"),"stroke-width":2},gv);
+  });
+  ["F1","F2","F3","F4"].forEach((t,ri)=>el("text",{x:0,y:top+ri*ch+13,style:"font-size:12px"},gv,t));
+  el("text",{x:0,y:top+4*ch+20,style:"font-size:13px"},gv,"Top tag: who really wrote the line. Outlined: the only line all four agreed on (the biryani line).");
+  el("text",{x:0,y:top+4*ch+40,style:"font-size:13px"},gv,"A column of solid blue under an \"AI\" tag means the twin fooled everyone.");
+
+  // 5. Items
+  const it=document.getElementById("items"); it.innerHTML="";
+  const rows5=D.items, rh=34, W5=560, BW=150;
+  const iv=el("svg",{viewBox:`0 0 ${W5} ${rows5.length*rh+30}`,role:"img","aria-label":"How often each line was called him"},it);
+  rows5.forEach((d,i)=>{const y=12+i*rh, col=d.source==="real"?css("--accent"):css("--twin");
+    el("rect",{x:0,y:y,width:BW,height:12,rx:3,fill:css("--track")},iv);
+    el("rect",{x:0,y:y,width:BW*d.called_him/d.judges,height:12,rx:3,fill:col},iv);
+    el("text",{x:BW+10,y:y+11,style:`font-size:13px;fill:${css("--ink")}`},iv,`${d.called_him}/${d.judges}  ${d.source==="real"?"Me":"Twin"}: ${d.text.length>52?d.text.slice(0,50)+"…":d.text}`);
+  });
+  el("text",{x:0,y:rows5.length*rh+24,style:"font-size:13px"},iv,"Bar: share of friends who said \"him\". Blue: really me. Orange: the twin.");
+}
+draw();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",draw);
+</script>
 </body>
 </html>
