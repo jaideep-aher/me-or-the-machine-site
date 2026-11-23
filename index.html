@@ -93,6 +93,14 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .shots figure{margin:0}
 .shots img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:10px}
 .shots figcaption{font-size:15px;color:var(--muted);margin-top:10px}
+.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:36px;align-items:start}
+.gallery .wide{grid-column:1/-1}
+@media (max-width:760px){.gallery{grid-template-columns:1fr}}
+.gallery figure{margin:0}
+.gallery img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:10px}
+.gallery figcaption{font-size:15px;color:var(--muted);margin-top:10px}
+.gallery figcaption b{color:var(--ink)}
+.gallery .tall img{max-height:360px;object-fit:cover;object-position:top}
 /* Findings */
 .finding{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:48px;padding-block:40px;border-top:1px solid var(--line)}
 .finding:first-of-type{border-top:0;padding-top:8px}
@@ -242,9 +250,12 @@ footer p{max-width:80ch}
     <li><b>Ask it anything</b>A chat that answers from my records: "what did she say about the deck?"</li>
   </ul>
   <p class="muted" style="margin-top:18px">It texts me before deadlines, calls me with a voice agent when I have no plan, and checks what I promised against evidence. Its roadmap even has a stage called "the twin".</p>
-  <div class="shots">
-    <figure><img src="img/bee-facts.jpg" alt="Bee app screen titled technology, 16 facts, listing facts inferred about me such as my degree and how I evaluate startups" loading="lazy"><figcaption>The Bee app, unprompted: 16 "facts" it inferred about me in just one category, from my conversations.</figcaption></figure>
-    <figure><img src="img/jarvis-screen.jpg" alt="Jarvis whole-day view showing productive and distracting minutes by hour across Mac, Chrome and iPhone" loading="lazy"><figcaption>Jarvis's whole-day view: every minute on my Mac, browser and phone, labelled productive or distracting. Shown with test data.</figcaption></figure>
+  <div class="gallery">
+    <figure class="wide"><img src="img/jarvis-memory.jpg" alt="Jarvis Memory page: 7,273 things remembered from 10 of 11 sources, with a search box and a list of sources including Gmail, Bee conversations, Bee days, Bee facts and Calendar" loading="lazy"><figcaption><b>Memory.</b> 7,273 things remembered from 11 sources: three Gmail accounts, the Bee pendant's conversations, days and facts, my calendar. I can search all of it in one box.</figcaption></figure>
+    <figure><img src="img/jarvis-patterns.jpg" alt="Jarvis Patterns page: distraction peaks around 22:00, Instagram up 9 hours 50 minutes on last week, focus score chart over 28 days" loading="lazy"><figcaption><b>Patterns.</b> It knows when I get distracted, which app, and how my focus moved over four weeks.</figcaption></figure>
+    <figure><img src="img/jarvis-health.jpg" alt="Jarvis Health page asking to upload a health record from My Duke Health" loading="lazy"><figcaption><b>Health.</b> Built to take my full medical record from My Duke Health.</figcaption></figure>
+    <figure><img src="img/jarvis-people.jpg" alt="Jarvis People page: 200 people, last touch first, with inner, close and network filters" loading="lazy"><figcaption><b>People.</b> 200 people I deal with, ranked by last contact. Names hidden here.</figcaption></figure>
+    <figure class="tall"><img src="img/bee-facts.jpg" alt="Bee app screen titled technology, 16 facts, listing facts inferred about me" loading="lazy"><figcaption><b>The Bee app itself:</b> 16 "facts" it inferred about me in just one category.</figcaption></figure>
   </div>
   <p class="muted" style="margin-top:24px">One system now holds my words, my email, my schedule, my location, my habits and my health. That is useful, and it is exactly what an attacker would want. This project tests the first danger: can an AI already pass as me?</p>
 </section>
