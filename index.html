@@ -72,6 +72,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--muted);margin-top:12px}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 .scroll{overflow-x:auto}
+.rig{border-collapse:collapse;width:100%;font-size:16px}.rig td{padding:12px 10px;border-top:1px solid var(--line);vertical-align:top}.rig tr:first-child td{border-top:0}.rig td:first-child{color:var(--muted);width:42%}
 svg text{font-family:var(--body);fill:var(--muted)}
 
 /* Significance + next */
@@ -215,12 +216,27 @@ footer p{max-width:80ch}
   <div class="finding">
     <div>
       <h3>Friends didn't agree with each other</h3>
-      <p class="muted">Four friends judged the same 20 lines. They were unanimous on one line, the biryani line, and it was the twin's. Their majority vote was right on 3 lines, wrong on 5 and split on 12, so asking more people did not help.</p>
+      <p class="muted">Four friends judged the same 20 lines. They were unanimous on one line, the biryani line, and it was the twin's. Overall they agreed less than chance would predict (Fleiss' κ = −0.17). Their majority vote was right on 3 lines, wrong on 5 and split on 12, so asking more people did not help.</p>
     </div>
     <div class="chart scroll"><div id="grid"></div>
       <div class="legend"><span><i style="background:var(--accent)"></i>Said "really him"</span><span><i style="background:var(--twin)"></i>Said "AI twin"</span><span>Each column is one line; rows are four friends.</span></div>
     </div>
   </div>
+  <div class="finding">
+    <div>
+      <h3>This is evidence of no skill, not just too little data</h3>
+      <p class="muted">A small study that finds nothing can simply be underpowered. Four checks rule that out here.</p>
+    </div>
+    <div class="chart">
+      <table class="rig">
+        <tr><td>Could this sample have caught real skill?</td><td><b>Yes.</b> A true accuracy of 61% would show up 80% of the time.</td></tr>
+        <tr><td>Is accuracy inside 50% ± 10 points?</td><td><b>Yes.</b> Equivalence test p = 0.015.</td></tr>
+        <tr><td>Guessing or some ability?</td><td><b>Guessing</b> fits the data about 10 times better (Bayes factor 9.6).</td></tr>
+        <tr><td>Did a simple style detector do better?</td><td><b>No.</b> 59% on all 95 lines, not significant (p = 0.11).</td></tr>
+      </table>
+    </div>
+  </div>
+
   <div class="finding">
     <div>
       <h3>The lines that fooled people</h3>
